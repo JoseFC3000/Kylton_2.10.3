@@ -5,42 +5,50 @@
 #include <pugixml/src/pugixml.hpp>
 
 MetaDataDecl gameDecls[] = {
-	// key,         type,                   default,            statistic,  name in GuiMetaDataEd,  prompt in GuiMetaDataEd
-	{"name",        MD_STRING,              "",                 false,      "name",                 "enter game name"},
-	{"sortname",    MD_STRING,              "",                 false,      "sortname",             "enter game sort name"},
-	{"desc",        MD_MULTILINE_STRING,    "",                 false,      "description",          "enter description"},
-	{"image",       MD_PATH,                "",                 false,      "image",                "enter path to image"},
-	{"video",       MD_PATH     ,           "",                 false,      "video",                "enter path to video"},
-	{"marquee",     MD_PATH,                "",                 false,      "marquee",              "enter path to marquee"},
-	{"thumbnail",   MD_PATH,                "",                 false,      "thumbnail",            "enter path to thumbnail"},
-	{"rating",      MD_RATING,              "0.000000",         false,      "rating",               "enter rating"},
-	{"releasedate", MD_DATE,                "not-a-date-time",  false,      "release date",         "enter release date"},
-	{"developer",   MD_STRING,              "unknown",          false,      "developer",            "enter game developer"},
-	{"publisher",   MD_STRING,              "unknown",          false,      "publisher",            "enter game publisher"},
-	{"genre",       MD_STRING,              "unknown",          false,      "genre",                "enter game genre"},
-	{"players",     MD_INT,                 "1",                false,      "players",              "enter number of players"},
-	{"favorite",    MD_BOOL,                "false",            false,      "favorite",             "enter favorite off/on"},
-	{"hidden",      MD_BOOL,                "false",            false,      "hidden",               "enter hidden off/on" },
-	{"kidgame",     MD_BOOL,                "false",            false,      "kidgame",              "enter kidgame off/on" },
-	{"playcount",   MD_INT,                 "0",                true,       "play count",           "enter number of times played"},
-	{"lastplayed",  MD_TIME,                "0",                true,       "last played",          "enter last played date"}
+	// key,         	type,                   default,            statistic,  name in GuiMetaDataEd,  prompt in GuiMetaDataEd
+	{"name",        	MD_STRING,              "",                 false,      "name",                 "enter game name"},
+	{"sortname",    	MD_STRING,              "",                 false,      "sortname",             "enter game sort name"},
+	{"desc",        	MD_MULTILINE_STRING,    "",                 false,      "description",          "enter description"},
+	{"image",       	MD_PATH,                "",                 false,      "cover 1",              "enter path to cover 1"},
+	{"image2",       	MD_PATH,                "",                 false,      "cover 2",              "enter path to cover 2"},
+	{"video",       	MD_PATH,           	"",                 false,      "video",                "enter path to video"},
+	{"marquee",     	MD_PATH,                "",                 false,      "screenshot",           "enter path to screenshot"},
+	{"thumbnail",   	MD_PATH,                "",                 false,      "thumbnail",            "enter path to thumbnail"},
+	{"rating",      	MD_RATING,              "0.000000",         false,      "rating",               "enter rating"},
+	{"releasedate", 	MD_DATE,              	"",		    false,      "release date",         "enter release date"},
+	{"developer",   	MD_STRING,              "",                 false,      "developer",        	"enter game developer"},
+	{"publisher",   	MD_STRING,              "",                 false,      "publisher",            "enter game publisher"},
+	{"fullsystem",    	MD_STRING,              "",                 false,      "system",           	"enter game system"},
+	{"region",      	MD_STRING,              "",                 false,      "region",               "enter game region"},
+	{"information", 	MD_STRING,              "",                 false,      "information",          "enter game information"},
+	{"genre",       	MD_STRING,              "",                 false,      "genre",                "enter game genre"},
+	{"players",     	MD_STRING,              "",                 false,      "players",              "enter number of players"},
+	{"favorite",    	MD_BOOL,                "false",            false,      "favorite",             "enter favorite off/on"},
+	{"hidden",      	MD_BOOL,                "false",            false,      "hidden",               "enter hidden off/on" },
+	{"kidgame",     	MD_BOOL,                "false",            false,      "kidgame",              "enter kidgame off/on" },
+	{"playcount",   	MD_INT,                 "0",                true,       "play count",           "enter number of times played"},
+	{"lastplayed",  	MD_TIME,                "0",                true,       "last played",          "enter last played date"}
 };
 const std::vector<MetaDataDecl> gameMDD(gameDecls, gameDecls + sizeof(gameDecls) / sizeof(gameDecls[0]));
 
 MetaDataDecl folderDecls[] = {
-	{"name",        MD_STRING,              "",                 false,      "name",                 "enter game name"},
-	{"sortname",    MD_STRING,              "",                 false,      "sortname",             "enter game sort name"},
-	{"desc",        MD_MULTILINE_STRING,    "",                 false,      "description",          "enter description"},
-	{"image",       MD_PATH,                "",                 false,      "image",                "enter path to image"},
-	{"thumbnail",   MD_PATH,                "",                 false,      "thumbnail",            "enter path to thumbnail"},
-	{"video",       MD_PATH,                "",                 false,      "video",                "enter path to video"},
-	{"marquee",     MD_PATH,                "",                 false,      "marquee",              "enter path to marquee"},
-	{"rating",      MD_RATING,              "0.000000",         false,      "rating",               "enter rating"},
-	{"releasedate", MD_DATE,                "not-a-date-time",  false,      "release date",         "enter release date"},
-	{"developer",   MD_STRING,              "unknown",          false,      "developer",            "enter game developer"},
-	{"publisher",   MD_STRING,              "unknown",          false,      "publisher",            "enter game publisher"},
-	{"genre",       MD_STRING,              "unknown",          false,      "genre",                "enter game genre"},
-	{"players",     MD_INT,                 "1",                false,      "players",              "enter number of players"}
+	{"name",        	MD_STRING,              "",                 false,      "name",                 "enter game name"},
+	{"sortname",    	MD_STRING,              "",                 false,      "sortname",             "enter game sort name"},
+	{"desc",        	MD_MULTILINE_STRING,    "",                 false,      "description",          "enter description"},
+	{"image",       	MD_PATH,                "",                 false,      "cover 1",              "enter path to cover 1"},
+	{"image2",       	MD_PATH,                "",                 false,      "cover 2",              "enter path to cover 2"},
+	{"thumbnail",   	MD_PATH,                "",                 false,      "thumbnail",            "enter path to thumbnail"},
+	{"video",       	MD_PATH,                "",                 false,      "video",                "enter path to video"},
+	{"marquee",     	MD_PATH,                "",                 false,      "screenshot",           "enter path to screenshot"},
+	{"rating",      	MD_RATING,              "0.000000",         false,      "rating",               "enter rating"},
+	{"releasedate", 	MD_DATE,                "",                 false,      "release date",         "enter release date"},
+	{"developer",   	MD_STRING,              "",                 false,      "developer",        	"enter game developer"},
+	{"publisher",   	MD_STRING,              "",                 false,      "publisher",            "enter game publisher"},
+	{"fullsystem",		MD_STRING,              "",                 false,      "system",        	"enter path to system"},
+	{"region",      	MD_STRING,              "",                 false,      "region",               "enter game region"},
+	{"information", 	MD_STRING,              "",                 false,      "information",          "enter game information"},
+	{"genre",       	MD_STRING,              "",                 false,      "genre",                "enter game genre"},
+	{"players",     	MD_STRING,              "",                 false,      "players",              "enter number of players"}
 };
 const std::vector<MetaDataDecl> folderMDD(folderDecls, folderDecls + sizeof(folderDecls) / sizeof(folderDecls[0]));
 
