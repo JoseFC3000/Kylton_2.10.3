@@ -17,13 +17,14 @@ VideoGameListView::VideoGameListView(Window* window, FileData* root) :
 	mThumbnail(window),
 	mMarquee(window),
 	mImage(window),
+	mImage2(window),
 	mVideo(nullptr),
 	mVideoPlaying(false),
 
-	mLblRating(window), mLblReleaseDate(window), mLblDeveloper(window), mLblPublisher(window),
+	mLblRating(window), mLblReleaseDate(window), mLblDeveloper(window), mLblPublisher(window), mLblFullSystem(window), mLblRegion(window), mLblInformation(window),
 	mLblGenre(window), mLblPlayers(window), mLblLastPlayed(window), mLblPlayCount(window),
 
-	mRating(window), mReleaseDate(window), mDeveloper(window), mPublisher(window),
+	mRating(window), mReleaseDate(window), mDeveloper(window), mPublisher(window), mFullSystem(window), mRegion(window), mInformation(window),
 	mGenre(window), mPlayers(window), mLastPlayed(window), mPlayCount(window),
 	mName(window)
 {
@@ -53,6 +54,15 @@ VideoGameListView::VideoGameListView(Window* window, FileData* root) :
 	mImage.setDefaultZIndex(30);
 	mImage.setVisible(false);
 	addChild(&mImage);
+		
+	// Image 2
+	// Default to off the screen
+	mImage2.setOrigin(0.5f, 0.5f);
+	mImage2.setPosition(2.0f, 2.0f);
+	mImage2.setMaxSize(mSize.x(), mSize.y());
+	mImage2.setDefaultZIndex(30);
+	mImage2.setVisible(false);
+	addChild(&mImage2);
 
 	// Video
 	mVideo->setOrigin(0.5f, 0.5f);
@@ -92,6 +102,15 @@ VideoGameListView::VideoGameListView(Window* window, FileData* root) :
 	mLblPublisher.setText("Publisher: ");
 	addChild(&mLblPublisher);
 	addChild(&mPublisher);
+	mLblFullSystem.setText("System: ");
+	addChild(&mLblFullSystem);
+	addChild(&mFullSystem);
+	mLblRegion.setText("Region: ");
+	addChild(&mLblRegion);
+	addChild(&mRegion);
+	mLblInformation.setText("Information: ");
+	addChild(&mLblInformation);
+	addChild(&mInformation);
 	mLblGenre.setText("Genre: ");
 	addChild(&mLblGenre);
 	addChild(&mGenre);
@@ -140,14 +159,15 @@ void VideoGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
 	mThumbnail.applyTheme(theme, getName(), "md_thumbnail", POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION | VISIBLE);
 	mMarquee.applyTheme(theme, getName(), "md_marquee", POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION | VISIBLE);
 	mImage.applyTheme(theme, getName(), "md_image", POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION | VISIBLE);
+	mImage2.applyTheme(theme, getName(), "md_image2", POSITION | ThemeFlags::SIZE | Z_INDEX | ROTATION | VISIBLE);
 	mVideo->applyTheme(theme, getName(), "md_video", POSITION | ThemeFlags::SIZE | ThemeFlags::DELAY | Z_INDEX | ROTATION | VISIBLE);
 	mName.applyTheme(theme, getName(), "md_name", ALL);
 
 	initMDLabels();
 	std::vector<TextComponent*> labels = getMDLabels();
-	assert(labels.size() == 8);
-	const char* lblElements[8] = {
-		"md_lbl_rating", "md_lbl_releasedate", "md_lbl_developer", "md_lbl_publisher",
+	assert(labels.size() == 11);
+	const char* lblElements[11] = {
+		"md_lbl_rating", "md_lbl_releasedate", "md_lbl_developer", "md_lbl_publisher", "md_lbl_fullsystem", "md_lbl_region", "md_lbl_information",
 		"md_lbl_genre", "md_lbl_players", "md_lbl_lastplayed", "md_lbl_playcount"
 	};
 
@@ -159,9 +179,9 @@ void VideoGameListView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
 
 	initMDValues();
 	std::vector<GuiComponent*> values = getMDValues();
-	assert(values.size() == 8);
-	const char* valElements[8] = {
-		"md_rating", "md_releasedate", "md_developer", "md_publisher",
+	assert(values.size() == 11);
+	const char* valElements[11] = {
+		"md_rating", "md_releasedate", "md_developer", "md_publisher", "md_fullsystem", "md_region", "md_information",
 		"md_genre", "md_players", "md_lastplayed", "md_playcount"
 	};
 
@@ -218,6 +238,9 @@ void VideoGameListView::initMDValues()
 	mReleaseDate.setFont(defaultFont);
 	mDeveloper.setFont(defaultFont);
 	mPublisher.setFont(defaultFont);
+	mFullSystem.setFont(defaultFont);
+	mRegion.setFont(defaultFont);
+	mInformation.setFont(defaultFont);
 	mGenre.setFont(defaultFont);
 	mPlayers.setFont(defaultFont);
 	mLastPlayed.setFont(defaultFont);
@@ -269,6 +292,7 @@ void VideoGameListView::updateInfoPanel()
 		mThumbnail.setImage(file->getThumbnailPath());
 		mMarquee.setImage(file->getMarqueePath());
 		mImage.setImage(file->getImagePath());
+		mImage2.setImage(file->getImage2Path());
 
 		mDescription.setText(file->metadata.get("desc"));
 		mDescContainer.reset();
@@ -277,6 +301,9 @@ void VideoGameListView::updateInfoPanel()
 		mReleaseDate.setValue(file->metadata.get("releasedate"));
 		mDeveloper.setValue(file->metadata.get("developer"));
 		mPublisher.setValue(file->metadata.get("publisher"));
+		mFullSystem.setValue(file->metadata.get("fullsystem"));
+		mRegion.setValue(file->metadata.get("region"));
+		mInformation.setValue(file->metadata.get("information"));
 		mGenre.setValue(file->metadata.get("genre"));
 		mPlayers.setValue(file->metadata.get("players"));
 		mName.setValue(file->metadata.get("name"));
@@ -296,6 +323,7 @@ void VideoGameListView::updateInfoPanel()
 	comps.push_back(mVideo);
 	comps.push_back(&mDescription);
 	comps.push_back(&mImage);
+	comps.push_back(&mImage2);
 	comps.push_back(&mName);
 	std::vector<TextComponent*> labels = getMDLabels();
 	comps.insert(comps.cend(), labels.cbegin(), labels.cend());
@@ -344,6 +372,12 @@ void VideoGameListView::launch(FileData* game)
 	{
 		target = Vector3f(mImage.getCenter().x(), mImage.getCenter().y(), 0);
 	}
+	else if(mImage2.hasImage() &&
+		(mImage2.getPosition().x() < screenWidth && mImage2.getPosition().x() > 2.0f &&
+		 mImage2.getPosition().y() < screenHeight && mImage2.getPosition().y() > 2.0f))
+	{
+		target = Vector3f(mImage2.getCenter().x(), mImage2.getCenter().y(), 0);
+	}
 	else if(mHeaderImage.hasImage() &&
 		(mHeaderImage.getPosition().x() < screenWidth && mHeaderImage.getPosition().x() > 0.0f &&
 		 mHeaderImage.getPosition().y() < screenHeight && mHeaderImage.getPosition().y() > 0.0f))
@@ -366,6 +400,9 @@ std::vector<TextComponent*> VideoGameListView::getMDLabels()
 	ret.push_back(&mLblReleaseDate);
 	ret.push_back(&mLblDeveloper);
 	ret.push_back(&mLblPublisher);
+	ret.push_back(&mLblFullSystem);
+	ret.push_back(&mLblRegion);
+	ret.push_back(&mLblInformation);
 	ret.push_back(&mLblGenre);
 	ret.push_back(&mLblPlayers);
 	ret.push_back(&mLblLastPlayed);
@@ -380,6 +417,9 @@ std::vector<GuiComponent*> VideoGameListView::getMDValues()
 	ret.push_back(&mReleaseDate);
 	ret.push_back(&mDeveloper);
 	ret.push_back(&mPublisher);
+	ret.push_back(&mFullSystem);
+	ret.push_back(&mRegion);
+	ret.push_back(&mInformation);
 	ret.push_back(&mGenre);
 	ret.push_back(&mPlayers);
 	ret.push_back(&mLastPlayed);
