@@ -10,19 +10,19 @@
 #define INCLUDE_UNKNOWN false;
 
 FileFilterIndex::FileFilterIndex()
-	: filterByFavorites(false), filterByGenre(false), filterByHidden(false), filterByKidGame(false), filterByPlayers(false), filterByPublisher(false), filterByDeveloper(false), filterByFullSystem(false), filterByRegion(false), filterByRatings(false)
+	: filterByFavorites(false), filterByGenre(false), filterByPlayers(false), filterByPublisher(false), filterByDeveloper(false), filterByFullSystem(false), filterByRegion(false)
 {
 	clearAllFilters();
 	FilterDataDecl filterDecls[] = {
 		//type 			//allKeys 			//filteredBy 		//filteredKeys 			//primaryKey 		//hasSecondaryKey 	//secondaryKey 		//menuLabel
 		{ FULLSYSTEM_FILTER, 	&fullsystemIndexAllKeys,	&filterByFullSystem,	&fullsystemIndexFilteredKeys, 	"fullsystem",		true,			"fullsystem",		"SYSTEM" },
-		{ FAVORITES_FILTER, 	&favoritesIndexAllKeys, 	&filterByFavorites,	&favoritesIndexFilteredKeys,	"favorite",		false,			"",			"FAVORITES" },
-		{ GENRE_FILTER, 	&genreIndexAllKeys, 		&filterByGenre,		&genreIndexFilteredKeys, 	"genre",		true,			"genre",		"GENRE"	},
-		{ PLAYER_FILTER, 	&playersIndexAllKeys, 		&filterByPlayers,	&playersIndexFilteredKeys, 	"players",		true,			"players",		"PLAYERS" },
 		{ PUBLISHER_FILTER, 	&publisherIndexAllKeys, 	&filterByPublisher,	&publisherIndexFilteredKeys, 	"publisher",		true,			"publisher",		"PUBLISHER" },
 		{ DEVELOPER_FILTER, 	&developerIndexAllKeys, 	&filterByDeveloper,	&developerIndexFilteredKeys, 	"developer",		true,			"developer",		"DEVELOPER" },		
+		{ GENRE_FILTER, 	&genreIndexAllKeys, 		&filterByGenre,		&genreIndexFilteredKeys, 	"genre",		true,			"genre",		"GENRE"	},
+		{ PLAYER_FILTER, 	&playersIndexAllKeys, 		&filterByPlayers,	&playersIndexFilteredKeys, 	"players",		true,			"players",		"PLAYERS" },
 		{ REGION_FILTER, 	&regionIndexAllKeys, 		&filterByRegion,	&regionIndexFilteredKeys, 	"region",		true,			"region",		"REGION" },
 		{ RATINGS_FILTER, 	&ratingsIndexAllKeys, 		&filterByRatings,	&ratingsIndexFilteredKeys, 	"rating",		false,			"",			"RATING" },
+		{ FAVORITES_FILTER, 	&favoritesIndexAllKeys, 	&filterByFavorites,	&favoritesIndexFilteredKeys,	"favorite",		false,			"",			"FAVORITES" },		
 		{ KIDGAME_FILTER, 	&kidGameIndexAllKeys, 		&filterByKidGame,	&kidGameIndexFilteredKeys, 	"kidgame",		false,			"",			"KIDGAME" },
 		{ HIDDEN_FILTER, 	&hiddenIndexAllKeys, 		&filterByHidden,	&hiddenIndexFilteredKeys, 	"hidden",		false,			"",			"HIDDEN" }
 	};
@@ -101,7 +101,7 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 	{
 		case GENRE_FILTER:
 		{
-			key = std::string(game->metadata.get("genre"));
+			key = Utils::String::toUpper(game->metadata.get("genre"));
 			key = Utils::String::trim(key);
 			if (getSecondary && !key.empty()) {
 				std::istringstream f(key);
