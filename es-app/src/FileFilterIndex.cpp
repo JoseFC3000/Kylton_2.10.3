@@ -372,7 +372,7 @@ void FileFilterIndex::debugPrintIndexes()
 	for (auto x: developerIndexAllKeys) {
 		LOG(LogInfo) << "Developer Index: " << x.first << ": " << x.second;
 	}
-	for (auto x: hardwareIndexAllKeys) {
+	for (auto x: fullsystemIndexAllKeys) {
 		LOG(LogInfo) << "FullSystem Index: " << x.first << ": " << x.second;
 	}
 	for (auto x: regionIndexAllKeys) {
@@ -499,7 +499,7 @@ void FileFilterIndex::managePlayerEntryInIndex(FileData* game, bool remove)
 
 	// only add unknown in pubdev IF both dev and pub are empty
 	if (!includeUnknown && (key == UNKNOWN_LABEL || key == "BIOS")) {
-		// no valid genre info found
+		// no valid player info found
 		return;
 	}
 
@@ -521,7 +521,7 @@ void FileFilterIndex::managePublisherEntryInIndex(FileData* game, bool remove)
 
 	// only add unknown in pubdev IF both dev and pub are empty
 	if (!includeUnknown && (key == UNKNOWN_LABEL || key == "BIOS")) {
-		// no valid genre info found
+		// no valid publisher info found
 		return;
 	}
 
@@ -543,7 +543,7 @@ void FileFilterIndex::manageDeveloperEntryInIndex(FileData* game, bool remove)
 
 	// only add unknown in pubdev IF both dev and pub are empty
 	if (!includeUnknown && (key == UNKNOWN_LABEL || key == "BIOS")) {
-		// no valid genre info found
+		// no valid developer info found
 		return;
 	}
 
@@ -565,7 +565,7 @@ void FileFilterIndex::manageFullSystemEntryInIndex(FileData* game, bool remove)
 
 	// only add unknown in pubdev IF both dev and pub are empty
 	if (!includeUnknown && (key == UNKNOWN_LABEL || key == "BIOS")) {
-		// no valid genre info found
+		// no valid fullsystem info found
 		return;
 	}
 
@@ -587,7 +587,7 @@ void FileFilterIndex::manageRegionEntryInIndex(FileData* game, bool remove)
 
 	// only add unknown in pubdev IF both dev and pub are empty
 	if (!includeUnknown && (key == UNKNOWN_LABEL || key == "BIOS")) {
-		// no valid genre info found
+		// no valid region info found
 		return;
 	}
 
