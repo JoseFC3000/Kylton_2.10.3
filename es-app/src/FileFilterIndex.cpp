@@ -15,12 +15,12 @@ FileFilterIndex::FileFilterIndex()
 	clearAllFilters();
 	FilterDataDecl filterDecls[] = {
 		//type 			//allKeys 			//filteredBy 		//filteredKeys 			//primaryKey 		//hasSecondaryKey 	//secondaryKey 		//menuLabel
+		{ FULLSYSTEM_FILTER, 	&fullsystemIndexAllKeys,	&filterByFullSystem,	&fullsystemIndexFilteredKeys, 	"fullsystem",		true,			"fullsystem",		"SYSTEM" },
 		{ FAVORITES_FILTER, 	&favoritesIndexAllKeys, 	&filterByFavorites,	&favoritesIndexFilteredKeys,	"favorite",		false,			"",			"FAVORITES" },
 		{ GENRE_FILTER, 	&genreIndexAllKeys, 		&filterByGenre,		&genreIndexFilteredKeys, 	"genre",		true,			"genre",		"GENRE"	},
 		{ PLAYER_FILTER, 	&playersIndexAllKeys, 		&filterByPlayers,	&playersIndexFilteredKeys, 	"players",		true,			"players",		"PLAYERS" },
 		{ PUBLISHER_FILTER, 	&publisherIndexAllKeys, 	&filterByPublisher,	&publisherIndexFilteredKeys, 	"publisher",		true,			"publisher",		"PUBLISHER" },
-		{ DEVELOPER_FILTER, 	&developerIndexAllKeys, 	&filterByDeveloper,	&developerIndexFilteredKeys, 	"developer",		true,			"developer",		"DEVELOPER" },
-		{ FULLSYSTEM_FILTER, 	&fullsystemIndexAllKeys,	&filterByFullSystem,	&fullsystemIndexFilteredKeys, 	"fullsystem",		true,			"fullsystem",		"SYSTEM" },
+		{ DEVELOPER_FILTER, 	&developerIndexAllKeys, 	&filterByDeveloper,	&developerIndexFilteredKeys, 	"developer",		true,			"developer",		"DEVELOPER" },		
 		{ REGION_FILTER, 	&regionIndexAllKeys, 		&filterByRegion,	&regionIndexFilteredKeys, 	"region",		true,			"region",		"REGION" },
 		{ RATINGS_FILTER, 	&ratingsIndexAllKeys, 		&filterByRatings,	&ratingsIndexFilteredKeys, 	"rating",		false,			"",			"RATING" },
 		{ KIDGAME_FILTER, 	&kidGameIndexAllKeys, 		&filterByKidGame,	&kidGameIndexFilteredKeys, 	"kidgame",		false,			"",			"KIDGAME" },
@@ -101,7 +101,7 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 	{
 		case GENRE_FILTER:
 		{
-			key = Utils::String::toUpper(game->metadata.get("genre"));
+			key = std::string(game->metadata.get("genre"));
 			key = Utils::String::trim(key);
 			if (getSecondary && !key.empty()) {
 				std::istringstream f(key);
