@@ -10,7 +10,7 @@
 #define INCLUDE_UNKNOWN false;
 
 FileFilterIndex::FileFilterIndex()
-	: filterByFavorites(false), filterByGenre(false), filterByPlayers(false), filterByPublisher(false), filterByDeveloper(false), filterByFullSystem(false), filterByRegion(false)
+	: filterByFavorites(false), filterByGenre(false), filterByHidden(false), filterByKidGame(false), filterByPlayers(false), filterByPublisher(false), filterByDeveloper(false), filterByFullSystem(false), filterByRegion(false), filterByRatings(false)
 {
 	clearAllFilters();
 	FilterDataDecl filterDecls[] = {
@@ -235,13 +235,13 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			}
 			break;
 		}
-		case FAVORITES_FILTER:
-		{
-			if (game->getType() != GAME)
-				return "FALSE";
-			key = Utils::String::toUpper(game->metadata.get("favorite"));
-			break;
-		}
+//		case FAVORITES_FILTER:
+//		{
+//			if (game->getType() != GAME)
+//				return "FALSE";
+//			key = Utils::String::toUpper(game->metadata.get("favorite"));
+//			break;
+//		}
 		case HIDDEN_FILTER:
 		{
 			if (game->getType() != GAME)
