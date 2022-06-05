@@ -90,7 +90,9 @@ namespace FileSorts
 
 	bool compareNumPlayers(const FileData* file1, const FileData* file2)
 	{
-		return (file1)->metadata.getInt("players") < (file2)->metadata.getInt("players");
+		std::string players1 = Utils::String::toUpper(file1->metadata.get("players"));
+		std::string players2 = Utils::String::toUpper(file2->metadata.get("players"));
+		return players1.compare(players2) < 0;
 	}
 
 	bool compareReleaseDate(const FileData* file1, const FileData* file2)
