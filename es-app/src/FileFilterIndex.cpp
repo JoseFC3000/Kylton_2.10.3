@@ -235,27 +235,27 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			}
 			break;
 		}
-//		case FAVORITES_FILTER:
+		case FAVORITES_FILTER:
+		{
+			if (game->getType() != GAME)
+				return "FALSE";
+			key = Utils::String::toUpper(game->metadata.get("favorite"));
+			break;
+		}
+//		case HIDDEN_FILTER:
 //		{
 //			if (game->getType() != GAME)
 //				return "FALSE";
-//			key = Utils::String::toUpper(game->metadata.get("favorite"));
+//			key = Utils::String::toUpper(game->metadata.get("hidden"));
 //			break;
 //		}
-		case HIDDEN_FILTER:
-		{
-			if (game->getType() != GAME)
-				return "FALSE";
-			key = Utils::String::toUpper(game->metadata.get("hidden"));
-			break;
-		}
-		case KIDGAME_FILTER:
-		{
-			if (game->getType() != GAME)
-				return "FALSE";
-			key = Utils::String::toUpper(game->metadata.get("kidgame"));
-			break;
-		}
+//		case KIDGAME_FILTER:
+//		{
+//			if (game->getType() != GAME)
+//				return "FALSE";
+//			key = Utils::String::toUpper(game->metadata.get("kidgame"));
+//			break;
+//		}
 	}
 	key = Utils::String::trim(key);
 	if (key.empty() || (type == RATINGS_FILTER && key == "0 STARS")) {
