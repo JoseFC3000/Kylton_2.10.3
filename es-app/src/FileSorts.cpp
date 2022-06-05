@@ -28,12 +28,12 @@ namespace FileSorts
 		
 		FileData::SortType(&compareRegion, true, "region"),
 		FileData::SortType(&compareRegion, false, "region / reverse"),
+			
+		FileData::SortType(&compareTimesPlayed, false, "most played"),
+		FileData::SortType(&compareTimesPlayed, true, "most played / reverse"),
 		
-		FileData::SortType(&compareTimesPlayed, true, "times played"),
-		FileData::SortType(&compareTimesPlayed, false, "times played / reverse"),
-		
-		FileData::SortType(&compareLastPlayed, true, "last played"),
-		FileData::SortType(&compareLastPlayed, false, "last played / reverse"),
+		FileData::SortType(&compareLastPlayed, false, "last played"),
+		FileData::SortType(&compareLastPlayed, true, "last played / reverse"),
 
 //		FileData::SortType(&compareRating, true, "rating, ascending"),
 //		FileData::SortType(&compareRating, false, "rating, descending"),
