@@ -518,8 +518,8 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		scale = Math::min(mCarousel.logoScale, Math::max(1.0f, scale));
 		scale /= mCarousel.logoScale;
 
-		int opacity = (int)Math::round(0x80 + ((0xFF - 0x80) * (1.0f - fabs(distance))));
-		opacity = Math::max((int) 0x80, opacity);
+		int opacity = (int)Math::round(0x26 + ((0xFF - 0x26) * (1.0f - fabs(distance))));
+		opacity = Math::max((int) 0x26, opacity);
 
 		const std::shared_ptr<GuiComponent> &comp = mEntries.at(index).data.logo;
 		if (mCarousel.type == VERTICAL_WHEEL || mCarousel.type == HORIZONTAL_WHEEL) {
