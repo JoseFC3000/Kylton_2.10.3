@@ -322,7 +322,7 @@ void SystemView::onCursorChanged(const CursorState& /*state*/)
 			this->mCamOffset = move_carousel ? f : endPos;
 			this->mExtrasCamOffset = f;
 		}, 500);
-	} else {
+	} else if (transition_style == "instant") {
 		// instant
 		anim = new LambdaAnimation(
 			[this, startPos, endPos, posMax, move_carousel ](float t)
@@ -337,6 +337,22 @@ void SystemView::onCursorChanged(const CursorState& /*state*/)
 			this->mCamOffset = move_carousel ? f : endPos;
 			this->mExtrasCamOffset = endPos;
 		}, move_carousel ? 500 : 1);
+	} else {
+		// arcade
+		// slide
+		anim = new LambdaAnimation(
+			[this, startPos, endPos, posMax, move_carousel](float t)
+		{
+			t -= 1;
+			float f = Math::lerp(startPos, endPos, t*t*t + 1);
+			if(f < 0)
+				f += posMax;
+			if(f >= posMax)
+				f -= posMax;
+
+			this->mCamOffset = move_carousel ? f : endPos;
+			this->mExtrasCamOffset = f;
+		}, 500);
 	}
 
 
