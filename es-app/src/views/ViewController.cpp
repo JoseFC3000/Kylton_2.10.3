@@ -285,7 +285,7 @@ void ViewController::launch(FileData* game, Vector3f center)
 		setAnimation(new LambdaAnimation(fadeFunc, 800), 0, [this, game, fadeFunc]
 		{
 			game->launchGame(mWindow);
-			setAnimation(new LambdaAnimation(fadeFunc, 0), 0, [this] { mLockInput = false; }, true);
+			setAnimation(new LambdaAnimation(fadeFunc, 800), 0, [this] { mLockInput = false; }, true);
 			this->onFileChanged(game, FILE_METADATA_CHANGED);
 			if (mCurrentView)
 				mCurrentView->onShow();
