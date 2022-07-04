@@ -21,6 +21,7 @@ MetaDataDecl gameDecls[] = {
 	{"fullsystem",    	MD_STRING,              "",                 false,      "system",           	"enter game system"},
 	{"region",      	MD_STRING,              "",                 false,      "region",               "enter game region"},
 	{"information", 	MD_STRING,              "",                 false,      "information",          "enter game information"},
+	{"notes", 		MD_STRING,              "",                 false,      "notes",          	"enter game notes"},
 	{"genre",       	MD_STRING,              "",                 false,      "genre",                "enter game genre"},
 	{"players",     	MD_STRING,              "",                 false,      "players",              "enter number of players"},
 	{"favorite",    	MD_BOOL,                "false",            false,      "favorite",             "enter favorite off/on"},
@@ -47,6 +48,7 @@ MetaDataDecl folderDecls[] = {
 	{"fullsystem",		MD_STRING,              "",                 false,      "system",        	"enter path to system"},
 	{"region",      	MD_STRING,              "",                 false,      "region",               "enter game region"},
 	{"information", 	MD_STRING,              "",                 false,      "information",          "enter game information"},
+	{"notes", 		MD_STRING,              "",                 false,      "notes",		"enter game notes"},
 	{"genre",       	MD_STRING,              "",                 false,      "genre",                "enter game genre"},
 	{"players",     	MD_STRING,              "",                 false,      "players",              "enter number of players"}
 };
