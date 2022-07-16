@@ -1,7 +1,7 @@
 #include "FileSorts.h"
 
 #include "utils/StringUtil.h"
-#include "Settings.h"
+// #include "Settings.h"
 #include "Log.h"
 
 namespace FileSorts
@@ -146,28 +146,28 @@ namespace FileSorts
 
 	//If option is enabled, ignore leading articles by temporarily modifying the name prior to sorting
 	//(Artciles are defined within the settings config file)
-	void ignoreLeadingArticles(std::string &name1, std::string &name2) {
+//	void ignoreLeadingArticles(std::string &name1, std::string &name2) {
 
-		if (Settings::getInstance()->getBool("IgnoreLeadingArticles"))
-		{
+//		if (Settings::getInstance()->getBool("IgnoreLeadingArticles"))
+//		{
 
-			std::vector<std::string> articles = Utils::String::delimitedStringToVector(Settings::getInstance()->getString("LeadingArticles"), ",");
+//			std::vector<std::string> articles = Utils::String::delimitedStringToVector(Settings::getInstance()->getString("LeadingArticles"), ",");
 
-			for(Utils::String::stringVector::iterator it = articles.begin(); it != articles.end(); it++)
-			{
+//			for(Utils::String::stringVector::iterator it = articles.begin(); it != articles.end(); it++)
+//			{
 			
-				if (Utils::String::startsWith(Utils::String::toUpper(name1), Utils::String::toUpper(it[0]) + " ")) {
-					name1 = Utils::String::replace(Utils::String::toUpper(name1), Utils::String::toUpper(it[0]) + " ", "");
-				}
+//				if (Utils::String::startsWith(Utils::String::toUpper(name1), Utils::String::toUpper(it[0]) + " ")) {
+//					name1 = Utils::String::replace(Utils::String::toUpper(name1), Utils::String::toUpper(it[0]) + " ", "");
+//				}
 
-				if (Utils::String::startsWith(Utils::String::toUpper(name2), Utils::String::toUpper(it[0]) + " ")) {
-					name2 = Utils::String::replace(Utils::String::toUpper(name2), Utils::String::toUpper(it[0]) + " ", "");
-				}
+//				if (Utils::String::startsWith(Utils::String::toUpper(name2), Utils::String::toUpper(it[0]) + " ")) {
+//					name2 = Utils::String::replace(Utils::String::toUpper(name2), Utils::String::toUpper(it[0]) + " ", "");
+//				}
 
-			}
+//			}
 
-		}
+//		}
 
-	}
+//	}
 
-};
+// };
