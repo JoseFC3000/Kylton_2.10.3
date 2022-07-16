@@ -35,14 +35,14 @@ namespace FileSorts
 		FileData::SortType(&compareLastPlayed, false, "last played"),
 		FileData::SortType(&compareLastPlayed, true, "last played / reverse"),
 
-		FileData::SortType(&compareRating, true, "rating, ascending"),
-		FileData::SortType(&compareRating, false, "rating, descending"),
+//		FileData::SortType(&compareRating, true, "rating, ascending"),
+//		FileData::SortType(&compareRating, false, "rating, descending"),
 
-		FileData::SortType(&compareDeveloper, true, "developer, ascending"),
-		FileData::SortType(&compareDeveloper, false, "developer, descending"),
+//		FileData::SortType(&compareDeveloper, true, "developer, ascending"),
+//		FileData::SortType(&compareDeveloper, false, "developer, descending"),
 
-		FileData::SortType(&compareSystem, true, "system, ascending"),
-		FileData::SortType(&compareSystem, false, "system, descending")
+//		FileData::SortType(&compareSystem, true, "system, ascending"),
+//		FileData::SortType(&compareSystem, false, "system, descending")
 	};
 
 	const std::vector<FileData::SortType> SortTypes(typesArr, typesArr + sizeof(typesArr)/sizeof(typesArr[0]));
