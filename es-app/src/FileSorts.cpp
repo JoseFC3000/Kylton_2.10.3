@@ -60,7 +60,7 @@ namespace FileSorts
 			name2 = Utils::String::toUpper(file2->metadata.get("name"));
 		}
 
-		ignoreLeadingArticles(name1, name2);
+//		ignoreLeadingArticles(name1, name2);
 
 		return name1.compare(name2) < 0;
 	}
