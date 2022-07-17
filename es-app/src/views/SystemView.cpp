@@ -260,7 +260,7 @@ void SystemView::onCursorChanged(const CursorState& /*state*/)
 		if (!getSelected()->isGameSystem())
 			ss << "CONFIGURATION";
 		else
-			ss << gameCount << " GAME" << (gameCount == 1 ? "" : "S") << " AVAILABLE";
+			ss << "#  " << gameCount << " GAME" << (gameCount == 1 ? "" : "S") << " AVAILABLE";
 
 		mSystemInfo.setText(ss.str());
 	}, false, 1);
