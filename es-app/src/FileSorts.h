@@ -16,11 +16,8 @@ namespace FileSorts
 	bool compareRegion(const FileData* file1, const FileData* file2);
 	bool compareTimesPlayed(const FileData* file1, const FileData* file2);
 	bool compareLastPlayed(const FileData* file1, const FileData* file2);
-//	bool compareRating(const FileData* file1, const FileData* file2);	
-//	bool compareDeveloper(const FileData* file1, const FileData* file2);
-//	bool compareSystem(const FileData* file1, const FileData* file2);
 
-//	void ignoreLeadingArticles(std::string &name1, std::string &name2);
+	void ignoreLeadingArticles(std::string &name1, std::string &name2);
 
 	extern const std::vector<FileData::SortType> SortTypes;
 };
