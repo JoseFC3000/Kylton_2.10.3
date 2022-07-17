@@ -190,11 +190,6 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			break;
 		}
 	}
-	key = Utils::String::trim(key);
-	if (key.empty() || (type == RATINGS_FILTER && key == "0 STARS")) {
-		key = UNKNOWN_LABEL;
-	}
-	return key;
 }
 
 void FileFilterIndex::addToIndex(FileData* game)
