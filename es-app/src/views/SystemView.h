@@ -79,6 +79,7 @@ private:
 
 	SystemViewCarousel mCarousel;
 	TextComponent mSystemInfo;
+	TextComponent mRetropieRegion;
 
 	// unit is list index
 	float mCamOffset;
