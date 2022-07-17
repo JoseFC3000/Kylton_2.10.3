@@ -256,24 +256,6 @@ void FileFilterIndex::resetFilters()
 	setUIModeFilters();
 }
 
-void FileFilterIndex::setUIModeFilters()
-{
-	if(!Settings::getInstance()->getBool("ForceDisableFilters")){
-		if (UIModeController::getInstance()->isUIModeKiosk())
-		{
-			filterByHidden = true;
-			std::vector<std::string> val = { "FALSE" };
-			setFilter(HIDDEN_FILTER, &val);
-		}
-		if (UIModeController::getInstance()->isUIModeKid())
-		{
-			filterByKidGame = true;
-			std::vector<std::string> val = { "TRUE" };
-			setFilter(KIDGAME_FILTER, &val);
-		}
-	}
-}
-
 void FileFilterIndex::debugPrintIndexes()
 {
 	LOG(LogInfo) << "Printing Indexes...";
