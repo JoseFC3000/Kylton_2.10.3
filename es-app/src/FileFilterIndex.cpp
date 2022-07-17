@@ -10,17 +10,21 @@
 #define INCLUDE_UNKNOWN false;
 
 FileFilterIndex::FileFilterIndex()
-	: filterByFavorites(false), filterByGenre(false), filterByPlayers(false), filterByPublisher(false), filterByFullSystem(false), filterByRegion(false)
+	: filterByFavorites(false), filterByGenre(false), filterByHidden(false), filterByKidGame(false), filterByPlayers(false), filterByPublisher(false), filterByDeveloper(false), filterByFullSystem(false), filterByRegion(false), filterByRatings(false)
 {
 	clearAllFilters();
 	FilterDataDecl filterDecls[] = {
 		//type 			//allKeys 			//filteredBy 		//filteredKeys 			//primaryKey 		//hasSecondaryKey 	//secondaryKey 		//menuLabel
 		{ FULLSYSTEM_FILTER, 	&fullsystemIndexAllKeys,	&filterByFullSystem,	&fullsystemIndexFilteredKeys, 	"fullsystem",		true,			"fullsystem",		"SYSTEM" },
 		{ PUBLISHER_FILTER, 	&publisherIndexAllKeys, 	&filterByPublisher,	&publisherIndexFilteredKeys, 	"publisher",		true,			"publisher",		"PUBLISHER" },
+		{ DEVELOPER_FILTER, 	&developerIndexAllKeys, 	&filterByDeveloper,	&developerIndexFilteredKeys, 	"developer",		true,			"developer",		"DEVELOPER" },		
 		{ GENRE_FILTER, 	&genreIndexAllKeys, 		&filterByGenre,		&genreIndexFilteredKeys, 	"genre",		true,			"genre",		"GENRE"	},
 		{ PLAYER_FILTER, 	&playersIndexAllKeys, 		&filterByPlayers,	&playersIndexFilteredKeys, 	"players",		true,			"players",		"PLAYERS" },
 		{ REGION_FILTER, 	&regionIndexAllKeys, 		&filterByRegion,	&regionIndexFilteredKeys, 	"region",		true,			"region",		"REGION" },
-		{ FAVORITES_FILTER, 	&favoritesIndexAllKeys, 	&filterByFavorites,	&favoritesIndexFilteredKeys,	"favorite",		false,			"",			"FAVORITES" },
+		{ RATINGS_FILTER, 	&ratingsIndexAllKeys, 		&filterByRatings,	&ratingsIndexFilteredKeys, 	"rating",		false,			"",			"RATING" },
+		{ FAVORITES_FILTER, 	&favoritesIndexAllKeys, 	&filterByFavorites,	&favoritesIndexFilteredKeys,	"favorite",		false,			"",			"FAVORITES" },		
+		{ KIDGAME_FILTER, 	&kidGameIndexAllKeys, 		&filterByKidGame,	&kidGameIndexFilteredKeys, 	"kidgame",		false,			"",			"KIDGAME" },
+		{ HIDDEN_FILTER, 	&hiddenIndexAllKeys, 		&filterByHidden,	&hiddenIndexFilteredKeys, 	"hidden",		false,			"",			"HIDDEN" }
 	};
 
 	filterDataDecl = std::vector<FilterDataDecl>(filterDecls, filterDecls + sizeof(filterDecls) / sizeof(filterDecls[0]));
@@ -48,9 +52,13 @@ void FileFilterIndex::importIndex(FileFilterIndex* indexToImport)
 		{ &genreIndexAllKeys, &(indexToImport->genreIndexAllKeys) },
 		{ &playersIndexAllKeys, &(indexToImport->playersIndexAllKeys) },
 		{ &publisherIndexAllKeys, &(indexToImport->publisherIndexAllKeys) },
+		{ &developerIndexAllKeys, &(indexToImport->developerIndexAllKeys) },
 		{ &fullsystemIndexAllKeys, &(indexToImport->fullsystemIndexAllKeys) },
 		{ &regionIndexAllKeys, &(indexToImport->regionIndexAllKeys) },
+		{ &ratingsIndexAllKeys, &(indexToImport->ratingsIndexAllKeys) },
 		{ &favoritesIndexAllKeys, &(indexToImport->favoritesIndexAllKeys) },
+		{ &hiddenIndexAllKeys, &(indexToImport->hiddenIndexAllKeys) },
+		{ &kidGameIndexAllKeys, &(indexToImport->kidGameIndexAllKeys) },
 	};
 
 	std::vector<IndexImportStructure> indexImportDecl = std::vector<IndexImportStructure>(indexStructDecls, indexStructDecls + sizeof(indexStructDecls) / sizeof(indexStructDecls[0]));
@@ -77,9 +85,13 @@ void FileFilterIndex::resetIndex()
 	clearIndex(genreIndexAllKeys);
 	clearIndex(playersIndexAllKeys);
 	clearIndex(publisherIndexAllKeys);
+	clearIndex(developerIndexAllKeys);
 	clearIndex(fullsystemIndexAllKeys);
 	clearIndex(regionIndexAllKeys);
+	clearIndex(ratingsIndexAllKeys);
 	clearIndex(favoritesIndexAllKeys);
+	clearIndex(hiddenIndexAllKeys);
+	clearIndex(kidGameIndexAllKeys);
 }
 
 std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType type, bool getSecondary)
@@ -144,6 +156,25 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			}		
 			break;
 		}
+//		case DEVELOPER_FILTER:
+//		{
+//			key = Utils::String::toUpper(game->metadata.get("developer"));
+//			key = Utils::String::trim(key);
+//			if (getSecondary && !key.empty()) {
+//				std::istringstream f(key);
+//				std::string newKey;
+//				getline(f, newKey, '/');
+//				if (!newKey.empty() && newKey != key)
+//				{
+//					key = newKey;
+//				}
+//				else
+//				{
+//					key = std::string();
+//				}
+//			}					
+//			break;
+//		}
 		case FULLSYSTEM_FILTER:
 		{
 			key = Utils::String::toUpper(game->metadata.get("fullsystem"));
@@ -182,6 +213,28 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			}					
 			break;
 		}
+//		case RATINGS_FILTER:
+//		{
+//			int ratingNumber = 0;
+//			if (!getSecondary)
+//			{
+//				std::string ratingString = game->metadata.get("rating");
+//				if (!ratingString.empty()) {
+//					try {
+//						ratingNumber = (int)((std::stod(ratingString)*5)+0.5);
+//						if (ratingNumber < 0)
+//							ratingNumber = 0;
+//
+//						key = std::to_string(ratingNumber) + " STARS";
+//					}
+//					catch (int e)
+//					{
+//						LOG(LogError) << "Error parsing Rating (invalid value, exception nr.): " << ratingString << ", " << e;
+//					}
+//				}
+//			}
+//			break;
+//		}
 		case FAVORITES_FILTER:
 		{
 			if (game->getType() != GAME)
@@ -189,7 +242,26 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			key = Utils::String::toUpper(game->metadata.get("favorite"));
 			break;
 		}
+//		case HIDDEN_FILTER:
+//		{
+//			if (game->getType() != GAME)
+//				return "FALSE";
+//			key = Utils::String::toUpper(game->metadata.get("hidden"));
+//			break;
+//		}
+//		case KIDGAME_FILTER:
+//		{
+//			if (game->getType() != GAME)
+//				return "FALSE";
+//			key = Utils::String::toUpper(game->metadata.get("kidgame"));
+//			break;
+//		}
 	}
+	key = Utils::String::trim(key);
+	if (key.empty() || (type == RATINGS_FILTER && key == "0 STARS")) {
+		key = UNKNOWN_LABEL;
+	}
+	return key;
 }
 
 void FileFilterIndex::addToIndex(FileData* game)
@@ -197,9 +269,13 @@ void FileFilterIndex::addToIndex(FileData* game)
 	manageGenreEntryInIndex(game);
 	managePlayerEntryInIndex(game);
 	managePublisherEntryInIndex(game);
+	manageDeveloperEntryInIndex(game);
 	manageFullSystemEntryInIndex(game);
 	manageRegionEntryInIndex(game);
+	manageRatingsEntryInIndex(game);
 	manageFavoritesEntryInIndex(game);
+	manageHiddenEntryInIndex(game);
+	manageKidGameEntryInIndex(game);
 }
 
 void FileFilterIndex::removeFromIndex(FileData* game)
@@ -207,9 +283,13 @@ void FileFilterIndex::removeFromIndex(FileData* game)
 	manageGenreEntryInIndex(game, true);
 	managePlayerEntryInIndex(game, true);
 	managePublisherEntryInIndex(game, true);
+	manageDeveloperEntryInIndex(game, true);
 	manageFullSystemEntryInIndex(game, true);
 	manageRegionEntryInIndex(game, true);
+	manageRatingsEntryInIndex(game, true);
 	manageFavoritesEntryInIndex(game, true);
+	manageHiddenEntryInIndex(game, true);
+	manageKidGameEntryInIndex(game, true);
 }
 
 void FileFilterIndex::setFilter(FilterIndexType type, std::vector<std::string>* values)
@@ -256,6 +336,24 @@ void FileFilterIndex::resetFilters()
 	setUIModeFilters();
 }
 
+void FileFilterIndex::setUIModeFilters()
+{
+	if(!Settings::getInstance()->getBool("ForceDisableFilters")){
+		if (UIModeController::getInstance()->isUIModeKiosk())
+		{
+			filterByHidden = true;
+			std::vector<std::string> val = { "FALSE" };
+			setFilter(HIDDEN_FILTER, &val);
+		}
+		if (UIModeController::getInstance()->isUIModeKid())
+		{
+			filterByKidGame = true;
+			std::vector<std::string> val = { "TRUE" };
+			setFilter(KIDGAME_FILTER, &val);
+		}
+	}
+}
+
 void FileFilterIndex::debugPrintIndexes()
 {
 	LOG(LogInfo) << "Printing Indexes...";
@@ -265,8 +363,14 @@ void FileFilterIndex::debugPrintIndexes()
 	for (auto x: genreIndexAllKeys) {
 		LOG(LogInfo) << "Genre Index: " << x.first << ": " << x.second;
 	}
+	for (auto x: ratingsIndexAllKeys) {
+		LOG(LogInfo) << "Ratings Index: " << x.first << ": " << x.second;
+	}
 	for (auto x: publisherIndexAllKeys) {
 		LOG(LogInfo) << "Publisher Index: " << x.first << ": " << x.second;
+	}
+	for (auto x: developerIndexAllKeys) {
+		LOG(LogInfo) << "Developer Index: " << x.first << ": " << x.second;
 	}
 	for (auto x: fullsystemIndexAllKeys) {
 		LOG(LogInfo) << "FullSystem Index: " << x.first << ": " << x.second;
@@ -276,6 +380,12 @@ void FileFilterIndex::debugPrintIndexes()
 	}
 	for (auto x: favoritesIndexAllKeys) {
 		LOG(LogInfo) << "Favorites Index: " << x.first << ": " << x.second;
+	}
+	for (auto x : hiddenIndexAllKeys) {
+		LOG(LogInfo) << "Hidden Index: " << x.first << ": " << x.second;
+	}
+	for (auto x : kidGameIndexAllKeys) {
+		LOG(LogInfo) << "KidGames Index: " << x.first << ": " << x.second;
 	}
 }
 
@@ -336,10 +446,10 @@ bool FileFilterIndex::showFile(FileData* game)
 
 bool FileFilterIndex::isKeyBeingFilteredBy(std::string key, FilterIndexType type)
 {
-	const FilterIndexType filterTypes[6] = { FAVORITES_FILTER, GENRE_FILTER, PLAYER_FILTER, PUBLISHER_FILTER, FULLSYSTEM_FILTER, REGION_FILTER };
-	std::vector<std::string> filterKeysList[6] = { favoritesIndexFilteredKeys, genreIndexFilteredKeys, playersIndexFilteredKeys, publisherIndexFilteredKeys, fullsystemIndexFilteredKeys, regionIndexFilteredKeys };
+	const FilterIndexType filterTypes[10] = { FAVORITES_FILTER, GENRE_FILTER, PLAYER_FILTER, PUBLISHER_FILTER, DEVELOPER_FILTER, FULLSYSTEM_FILTER, REGION_FILTER, RATINGS_FILTER, HIDDEN_FILTER, KIDGAME_FILTER };
+	std::vector<std::string> filterKeysList[10] = { favoritesIndexFilteredKeys, genreIndexFilteredKeys, playersIndexFilteredKeys, publisherIndexFilteredKeys, developerIndexFilteredKeys, fullsystemIndexFilteredKeys, regionIndexFilteredKeys, ratingsIndexFilteredKeys, hiddenIndexFilteredKeys, kidGameIndexFilteredKeys };
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		if (filterTypes[i] == type)
 		{
@@ -424,6 +534,28 @@ void FileFilterIndex::managePublisherEntryInIndex(FileData* game, bool remove)
 	}	
 }
 
+void FileFilterIndex::manageDeveloperEntryInIndex(FileData* game, bool remove)
+{
+	std::string key = getIndexableKey(game, DEVELOPER_FILTER, false);
+
+	// flag for including unknowns
+	bool includeUnknown = INCLUDE_UNKNOWN;
+
+	// only add unknown in pubdev IF both dev and pub are empty
+	if (!includeUnknown && (key == UNKNOWN_LABEL || key == "BIOS")) {
+		// no valid developer info found
+		return;
+	}
+
+	manageIndexEntry(&developerIndexAllKeys, key, remove);
+
+	key = getIndexableKey(game, DEVELOPER_FILTER, true);
+	if (!includeUnknown && key == UNKNOWN_LABEL)
+	{
+		manageIndexEntry(&developerIndexAllKeys, key, remove);
+	}	
+}
+
 void FileFilterIndex::manageFullSystemEntryInIndex(FileData* game, bool remove)
 {
 	std::string key = getIndexableKey(game, FULLSYSTEM_FILTER, false);
@@ -468,6 +600,21 @@ void FileFilterIndex::manageRegionEntryInIndex(FileData* game, bool remove)
 	}	
 }
 
+void FileFilterIndex::manageRatingsEntryInIndex(FileData* game, bool remove)
+{
+	std::string key = getIndexableKey(game, RATINGS_FILTER, false);
+
+	// flag for including unknowns
+	bool includeUnknown = INCLUDE_UNKNOWN;
+
+	if (!includeUnknown && key == UNKNOWN_LABEL) {
+		// no valid rating info found
+		return;
+	}
+
+	manageIndexEntry(&ratingsIndexAllKeys, key, remove);
+}
+
 void FileFilterIndex::manageFavoritesEntryInIndex(FileData* game, bool remove)
 {
 	// flag for including unknowns
@@ -479,6 +626,32 @@ void FileFilterIndex::manageFavoritesEntryInIndex(FileData* game, bool remove)
 	}
 
 	manageIndexEntry(&favoritesIndexAllKeys, key, remove);
+}
+
+void FileFilterIndex::manageHiddenEntryInIndex(FileData* game, bool remove)
+{
+	// flag for including unknowns
+	bool includeUnknown = INCLUDE_UNKNOWN;
+	std::string key = getIndexableKey(game, HIDDEN_FILTER, false);
+	if (!includeUnknown && key == UNKNOWN_LABEL) {
+		// no valid hidden info found
+		return;
+	}
+
+	manageIndexEntry(&hiddenIndexAllKeys, key, remove);
+}
+
+void FileFilterIndex::manageKidGameEntryInIndex(FileData* game, bool remove)
+{
+	// flag for including unknowns
+	bool includeUnknown = INCLUDE_UNKNOWN;
+	std::string key = getIndexableKey(game, KIDGAME_FILTER, false);
+	if (!includeUnknown && key == UNKNOWN_LABEL) {
+		// no valid kidgame info found
+		return;
+	}
+
+	manageIndexEntry(&kidGameIndexAllKeys, key, remove);
 }
 
 void FileFilterIndex::manageIndexEntry(std::map<std::string, int>* index, std::string key, bool remove) {
