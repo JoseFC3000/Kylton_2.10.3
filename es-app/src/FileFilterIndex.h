@@ -14,13 +14,9 @@ enum FilterIndexType
 	GENRE_FILTER,
 	PLAYER_FILTER,
 	PUBLISHER_FILTER,
-	DEVELOPER_FILTER,
 	FULLSYSTEM_FILTER,
 	REGION_FILTER,
-	RATINGS_FILTER,
-	FAVORITES_FILTER,
-	HIDDEN_FILTER,
-	KIDGAME_FILTER
+	FAVORITES_FILTER
 };
 
 struct FilterDataDecl
@@ -46,7 +42,7 @@ public:
 	void clearAllFilters();
 	void debugPrintIndexes();
 	bool showFile(FileData* game);
-	bool isFiltered() { return (filterByGenre || filterByPlayers || filterByPublisher || filterByDeveloper || filterByFullSystem || filterByRegion || filterByRatings || filterByFavorites || filterByHidden || filterByKidGame); };
+	bool isFiltered() { return (filterByGenre || filterByPlayers || filterByPublisher || filterByFullSystem || filterByRegion || filterByFavorites); };
 	bool isKeyBeingFilteredBy(std::string key, FilterIndexType type);
 	std::vector<FilterDataDecl>& getFilterDataDecls();
 
@@ -62,13 +58,9 @@ private:
 	void manageGenreEntryInIndex(FileData* game, bool remove = false);
 	void managePlayerEntryInIndex(FileData* game, bool remove = false);
 	void managePublisherEntryInIndex(FileData* game, bool remove = false);
-	void manageDeveloperEntryInIndex(FileData* game, bool remove = false);
 	void manageFullSystemEntryInIndex(FileData* game, bool remove = false);
 	void manageRegionEntryInIndex(FileData* game, bool remove = false);
-	void manageRatingsEntryInIndex(FileData* game, bool remove = false);
 	void manageFavoritesEntryInIndex(FileData* game, bool remove = false);
-	void manageHiddenEntryInIndex(FileData* game, bool remove = false);
-	void manageKidGameEntryInIndex(FileData* game, bool remove = false);
 
 	void manageIndexEntry(std::map<std::string, int>* index, std::string key, bool remove);
 
@@ -77,35 +69,23 @@ private:
 	bool filterByGenre;
 	bool filterByPlayers;
 	bool filterByPublisher;
-	bool filterByDeveloper;
 	bool filterByFullSystem;
 	bool filterByRegion;
-	bool filterByRatings;
 	bool filterByFavorites;
-	bool filterByHidden;
-	bool filterByKidGame;
 
 	std::map<std::string, int> genreIndexAllKeys;
 	std::map<std::string, int> playersIndexAllKeys;
 	std::map<std::string, int> publisherIndexAllKeys;
-	std::map<std::string, int> developerIndexAllKeys;
 	std::map<std::string, int> fullsystemIndexAllKeys;
 	std::map<std::string, int> regionIndexAllKeys;
-	std::map<std::string, int> ratingsIndexAllKeys;
 	std::map<std::string, int> favoritesIndexAllKeys;
-	std::map<std::string, int> hiddenIndexAllKeys;
-	std::map<std::string, int> kidGameIndexAllKeys;
 
 	std::vector<std::string> genreIndexFilteredKeys;
 	std::vector<std::string> playersIndexFilteredKeys;
 	std::vector<std::string> publisherIndexFilteredKeys;
-	std::vector<std::string> developerIndexFilteredKeys;
 	std::vector<std::string> fullsystemIndexFilteredKeys;
 	std::vector<std::string> regionIndexFilteredKeys;
-	std::vector<std::string> ratingsIndexFilteredKeys;
 	std::vector<std::string> favoritesIndexFilteredKeys;
-	std::vector<std::string> hiddenIndexFilteredKeys;
-	std::vector<std::string> kidGameIndexFilteredKeys;
 
 	FileData* mRootFolder;
 
