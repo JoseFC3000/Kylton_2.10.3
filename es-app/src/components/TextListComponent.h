@@ -155,27 +155,7 @@ void TextListComponent<T>::render(const Transform4x4f& parentTrans)
 
 	if(mCursor != mCursorPrev)
 	{
-		int fromTop = mCursorPrev - mStartEntry;
-		bool cursorCentered = fromTop == mScreenCount/2;
-		mStartEntry = 0;
-
-		if(size() >= mScreenCount)
-		{
-			if (Settings::getInstance()->getBool("UseFullscreenPaging")
-				&& (mCursor > mScreenCount/2 || mCursor < size() - (mScreenCount - mScreenCount/2))
-				&& !cursorCentered && !mOneEntryUpDn)
-			{
-				mStartEntry = mCursor - fromTop;
-			} else {
-				mStartEntry = mCursor - mScreenCount/2;
-			}
-
-			// bounds check
-			if(mStartEntry < 0)
-				mStartEntry = 0;
-			else if(mStartEntry >= size() - mScreenCount)
-				mStartEntry = size() - mScreenCount;
-		}
+		mStartEntry = (size() > mScreenCount) ? getFirstVisibleEntry() : 0;
 		mCursorPrev = mCursor;
 	}
 
