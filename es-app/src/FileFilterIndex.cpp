@@ -156,25 +156,6 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			}		
 			break;
 		}
-//		case DEVELOPER_FILTER:
-//		{
-//			key = Utils::String::toUpper(game->metadata.get("developer"));
-//			key = Utils::String::trim(key);
-//			if (getSecondary && !key.empty()) {
-//				std::istringstream f(key);
-//				std::string newKey;
-//				getline(f, newKey, '/');
-//				if (!newKey.empty() && newKey != key)
-//				{
-//					key = newKey;
-//				}
-//				else
-//				{
-//					key = std::string();
-//				}
-//			}					
-//			break;
-//		}
 		case FULLSYSTEM_FILTER:
 		{
 			key = Utils::String::toUpper(game->metadata.get("fullsystem"));
@@ -213,28 +194,6 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			}					
 			break;
 		}
-//		case RATINGS_FILTER:
-//		{
-//			int ratingNumber = 0;
-//			if (!getSecondary)
-//			{
-//				std::string ratingString = game->metadata.get("rating");
-//				if (!ratingString.empty()) {
-//					try {
-//						ratingNumber = (int)((std::stod(ratingString)*5)+0.5);
-//						if (ratingNumber < 0)
-//							ratingNumber = 0;
-//
-//						key = std::to_string(ratingNumber) + " STARS";
-//					}
-//					catch (int e)
-//					{
-//						LOG(LogError) << "Error parsing Rating (invalid value, exception nr.): " << ratingString << ", " << e;
-//					}
-//				}
-//			}
-//			break;
-//		}
 		case FAVORITES_FILTER:
 		{
 			if (game->getType() != GAME)
@@ -242,20 +201,6 @@ std::string FileFilterIndex::getIndexableKey(FileData* game, FilterIndexType typ
 			key = Utils::String::toUpper(game->metadata.get("favorite"));
 			break;
 		}
-//		case HIDDEN_FILTER:
-//		{
-//			if (game->getType() != GAME)
-//				return "FALSE";
-//			key = Utils::String::toUpper(game->metadata.get("hidden"));
-//			break;
-//		}
-//		case KIDGAME_FILTER:
-//		{
-//			if (game->getType() != GAME)
-//				return "FALSE";
-//			key = Utils::String::toUpper(game->metadata.get("kidgame"));
-//			break;
-//		}
 	}
 	key = Utils::String::trim(key);
 	if (key.empty() || (type == RATINGS_FILTER && key == "0 STARS")) {
