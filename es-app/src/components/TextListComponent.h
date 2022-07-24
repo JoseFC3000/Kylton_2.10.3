@@ -92,6 +92,7 @@ private:
 	Alignment mAlignment;
 	float mHorizontalMargin;
 
+	int getFirstVisibleEntry();
 	std::function<void(CursorState state)> mCursorChangedCallback;
 
 	std::shared_ptr<Font> mFont;
