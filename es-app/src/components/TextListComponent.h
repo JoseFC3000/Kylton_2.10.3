@@ -92,7 +92,6 @@ private:
 	Alignment mAlignment;
 	float mHorizontalMargin;
 
-	int getFirstVisibleEntry();
 	std::function<void(CursorState state)> mCursorChangedCallback;
 
 	std::shared_ptr<Font> mFont;
@@ -270,51 +269,6 @@ void TextListComponent<T>::render(const Transform4x4f& parentTrans)
 	listRenderTitleOverlay(trans);
 
 	GuiComponent::renderChildren(trans);
-}
-
-template <typename T>
-int TextListComponent<T>::getFirstVisibleEntry()
-{
-	if (mCursorPrev == -1)
-	{
-		// init or returned from emulator
-		mCursorPrev = mCursor;
-		int quot = div(mCursor, mScreenCount).quot;
-		mStartEntry = quot * mScreenCount;
-	}
-	int screenRelCursor = mCursorPrev - mStartEntry;
-	bool cursorCentered = screenRelCursor == mScreenCount/2;
-	int visibleEntryMax = size() - mScreenCount;
-	int firstVisibleEntry = 0;
-
-	if(Settings::getInstance()->getBool("UseFullscreenPaging") && !cursorCentered)
-	{
-		// keep visible cursor constant but move visible list (default)
-		firstVisibleEntry = mCursor - screenRelCursor;
-		if(mOneEntryUpDn)
-		{
-			int delta = mCursor - mCursorPrev;
-			// detect rollover (== delta is more than one item)
-			if(delta < -3)
-				firstVisibleEntry = 0;
-			else if(delta > 3)
-				firstVisibleEntry = visibleEntryMax;
-			else if(screenRelCursor < mScreenCount/2 && delta > 0 /*down pressed*/
-				|| screenRelCursor > mScreenCount/2 && delta < 0 /*up pressed*/)
-				// cases for list begin / list end
-				// move visible cursor and keep visible list section constant
-				firstVisibleEntry = firstVisibleEntry - delta;
-		}
-	} else {
-		// cursor always in middle of visible list
-		firstVisibleEntry = mCursor - mScreenCount/2;
-	}
-	// bounds check
-	if(firstVisibleEntry < 0)
-		firstVisibleEntry = 0;
-	else if(firstVisibleEntry > visibleEntryMax)
-		firstVisibleEntry = visibleEntryMax;
-	return firstVisibleEntry;
 }
 
 template <typename T>
