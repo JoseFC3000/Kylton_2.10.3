@@ -37,13 +37,6 @@ namespace FileSorts
 	};
 
 	const std::vector<FileData::SortType> SortTypes(typesArr, typesArr + sizeof(typesArr)/sizeof(typesArr[0]));
-	
-	bool compareLastPlayed(const FileData* file1, const FileData* file2)
-	{
-		// since it's stored as an ISO string (YYYYMMDDTHHMMSS), we can compare as a string
-		// as it's a lot faster than the time casts and then time comparisons
-		return (file1)->metadata.get("lastplayed") < (file2)->metadata.get("lastplayed");
-	}
 
 	//returns if file1 should come before file2
 	bool compareName(const FileData* file1, const FileData* file2)
@@ -116,6 +109,13 @@ namespace FileSorts
 		return false;
 	}
 	
+	bool compareLastPlayed(const FileData* file1, const FileData* file2)
+	{
+		// since it's stored as an ISO string (YYYYMMDDTHHMMSS), we can compare as a string
+		// as it's a lot faster than the time casts and then time comparisons
+		return (file1)->metadata.get("lastplayed") < (file2)->metadata.get("lastplayed");
+	}
+
 	//If option is enabled, ignore leading articles by temporarily modifying the name prior to sorting
 	//(Artciles are defined within the settings config file)
 	void ignoreLeadingArticles(std::string &name1, std::string &name2) {
